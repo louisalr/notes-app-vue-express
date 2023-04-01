@@ -35,14 +35,25 @@ export async function createNote(title, informations, isFavorite, dueDate){
     return getNote(id)
 }
 
-/*
 export async function editNote(id, title, informations, isFavorite, dueDate){
-    const result = await pool.query(`UPDATE notes SET `)
+    const [rows] = await pool.query(`UPDATE notes SET title= ?, informations = ?, isFavorite = ?, dueDate = ? where id = ?`,
+    [title,informations,isFavorite, dueDate,id])
+    return rows[0]
 }
 
 export async function deleteNote(id){
-
+    const [rows] = await pool.query(`DELETE FROM notes where id = ?`, id)
+    return rows 
 }
+
+/*
+const deleteTest = await deleteNote(1)
+console.log(deleteTest)*/
+
+/*
+
+
+
 
 const resultsSelectAll = await getNotes()
 console.log(resultsSelectAll)

@@ -1,7 +1,16 @@
 import express from 'express'
+import cors from 'cors'
 import bodyParser from 'body-parser'
-import { getNotes, getNotesWithDueDate, getNote, createNote} from './database.js'
+import { getNotes, getNotesWithDueDate, getNote, createNote, editNote,deleteNote} from './database.js'
 const app = express()
+
+
+const corsOptions = {
+    origin: 'http://localhost:5173',
+};
+  
+app.use(cors(corsOptions));
+  
 
 app.use(bodyParser.json())
 
@@ -24,14 +33,26 @@ app.get('/notes/:id', async (req,res) =>{
 
 app.post('/notes', async (req,res) =>{
     const {title, informations, isFavorite, dueDate} = req.body
+    console.log(req.body)
     const note = await createNote(title, informations, isFavorite, dueDate)
     res.status(201).send(note)
 })
 
-/*
+app.patch('/notes/:id', async(req,res)=>{
+    // Get the id from the request parameters
+    const {id} = req.params
+    // Get the data from the json body
+    const {title, informations, isFavorite, dueDate} = req.body
+    const note_edit = await editNote(id, title, informations, isFavorite, dueDate)
+    res.status(201).send(note_edit)
+})
+
+
 app.delete('/notes/:id', async(req,res) =>{
-    const delete = await deleteNode
-})*/
+    const {id} = req.params
+    const note_delete = await deleteNote(id);
+    res.status(201).send(note_delete)
+})
 
 app.use((err, req, res, next)=>{
     console.log(err.stack)
