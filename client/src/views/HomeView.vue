@@ -6,7 +6,7 @@
       <label class="form-check-label" for="flexSwitchCheckDefault">{{showOnlyFavorite}}</label>
     </div>
     <NoteVue
-      v-for="(value) in notes" 
+      v-for="value in storeNotes.notes" 
       @deleteClick="deleteNote"
       :key="value.id"
       :id="value.id"
@@ -28,14 +28,6 @@ import NoteVue from '../components/Note.vue';
 const storeNotes = useNoteStore()
 const favoriteToggle= ref(false)
 
-
-// Computed
-const notes = computed((value) => {
-  console.log(value)
-  console.log('Dans le home' + storeNotes.notes)
-  return storeNotes.notes;
-});
-
 const showOnlyFavorite = computed(() => 
   favoriteToggle.value ? 'Favorite only' : 'Everything'
 )
@@ -44,14 +36,22 @@ const showOnlyFavorite = computed(() =>
 // Function to delete the note
 const deleteNote = (id) => storeNotes.deleteNote(id)
 
+
 // Manage the displayed notes
 const test = () => {
   console.log(storeNotes.getNoteWithDueDate)
   return storeNotes.getNoteWithDueDate
 }
 
-onMounted(() =>{
-  storeNotes.fetchNotes()
-})
+const fetchNotesData = async () => {
+      try {
+        const data = await storeNotes.fetchNotes();
+      } catch (error) {
+        console.error(error);
+      }
+};
+
+onMounted(() => fetchNotesData())
+
 
 </script>

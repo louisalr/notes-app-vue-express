@@ -9,7 +9,6 @@ import Header from '@/components/layout/Header.vue'
       <component :is="slotProps.Component"></component>
   </router-view>
 
-  <RouterView />
 </template>
 
 <style scoped>
