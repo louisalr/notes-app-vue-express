@@ -6,7 +6,7 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description" v-model="description">
+            <textarea class="form-control" id="description" v-model="informations" rows="4"></textarea>
         </div>
         <div class="mb-3 form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="isFavorite">

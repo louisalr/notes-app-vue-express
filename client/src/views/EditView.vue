@@ -6,7 +6,7 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description" v-model="note.informations">
+            <textarea class="form-control" id="description" v-model="note.informations" rows="4"></textarea>
         </div>
         <div class="mb-3 form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="note.isFavorite">
@@ -45,9 +45,6 @@ const note = computed(() => {
 // Faudrait get un object pré-fait de la note en cours
 
 
-//const loadData = await storeNotes.
-
-
 // Function
 const submitChanges = () => {
     console.log(note.value.id);
@@ -67,9 +64,5 @@ const fetchNoteData = async () => {
 onMounted(() =>{
     fetchNoteData()
 })
-
-
-//console.log(await (async() => storeNotes.fetchNote(route.params.id))())
-
 
 </script>
