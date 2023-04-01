@@ -1,17 +1,17 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterView } from 'vue-router'
+import Header from '@/components/layout/Header.vue'
 </script>
 
 <template>
-  <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <RouterLink to="/">All notes</RouterLink>
-        <RouterLink to="/favorite">Favorites</RouterLink>
-      </nav>
-  </div>
+  <Header></Header>
+  <router-view v-slot="slotProps">
+      <component :is="slotProps.Component"></component>
+  </router-view>
 
   <RouterView />
 </template>
 
 <style scoped>
 </style>
+
