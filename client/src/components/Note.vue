@@ -1,12 +1,12 @@
 <template>
-    <div @click="" class="card" style="width: 18rem;">
+    <base-card>
         <div class="card-body">
             <h5 class="card-title">{{title}}</h5> <small>{{dueDate}}</small>
             <p class="card-text">{{informations}}</p>
-            <router-link to="/test" class="btn btn-success"><a> Test</a></router-link>
-            <router-link :to="dynamicUrl" class="btn btn-danger"><a> Delete</a></router-link>
-    </div>
-</div>
+            <router-link :to="dynamicUrlEdit" class="btn btn-success"><a> Edit</a></router-link>
+            <button @click="handleDeleteButton" class="btn btn-danger"> Delete </button>
+        </div>
+    </base-card>
 </template>
 
 <script setup>
@@ -36,7 +36,15 @@ const props = defineProps({
 })
 
 // Computed 
-const dynamicUrl = computed(() => `/note/${props.id}/edit`)
+const dynamicUrlEdit = computed(() => `/note/${props.id}/edit`)
+
+// Emit 
+const emit = defineEmits(['deleteClick'])
+
+// Function
+const handleDeleteButton = () => {
+    emit('deleteClick', props.id)
+}
 </script>
 
 <style scoped>

@@ -1,53 +1,57 @@
 <template>
   <div class="container">
-    <Note 
-      v-for="note in notes" 
-      :key="note.id"
-      :id="note.id"
-      :title="note.title"
-      :informations="note.informations"
-      :isFavorite="note.isFavorite"
-      :dueDate="note.dueDate"
+    <NewNote/>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="showOnlyFavorite" v-model="favoriteToggle" @input="test">
+      <label class="form-check-label" for="flexSwitchCheckDefault">{{showOnlyFavorite}}</label>
+    </div>
+    <NoteVue
+      v-for="(value) in notes" 
+      @deleteClick="deleteNote"
+      :key="value.id"
+      :id="value.id"
+      :title="value.title"
+      :informations="value.informations"
+      :isFavorite="value.isFavorite"
+      :dueDate="value.dueDate"
     />
   </div>
 </template>
 
 
 <script setup>
-import Note from '../components/Note.vue'
+import {onMounted, computed, ref } from 'vue';
+import { useNoteStore } from '@/stores/notes'
+import NewNote from '../components/NewNote.vue';
+import NoteVue from '../components/Note.vue';
 
-const notes = [
-{
-    id: 1,
-    title: 'My first note',
-    informations: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempor risus vitae lorem tempus, vitae suscipit libero iaculis.',
-    isFavorite: 0,
-    created: "2023-03-26T11:12:23.000Z",
-    dueDate: null
-  },
-  {
-    id: 2,
-    title: 'My second note',
-    informations: 'Aenean non vestibulum diam.',
-    isFavorite: 1,
-    created: "2023-03-26T11:12:23.000Z",
-    dueDate: "2023-04-24T22:00:00.000Z"
-  },
-  {
-    id: 3,
-    title: 'My third note',
-    informations: 'Nullam at purus faucibus, consequat velit sed, commodo elit.',
-    isFavorite: 1,
-    created: "2023-03-26T11:12:27.000Z",
-    dueDate: "2023-06-14T22:00:00.000Z"
-  },
-  {
-    id: 4,
-    title: 'Fourth note',
-    informations: 'Quick lorem ipsum',
-    isFavorite: 1,
-    created: "2023-03-26T11:29:06.000Z",
-    dueDate: null
-  },
-]
+const storeNotes = useNoteStore()
+const favoriteToggle= ref(false)
+
+
+// Computed
+const notes = computed((value) => {
+  console.log(value)
+  console.log('Dans le home' + storeNotes.notes)
+  return storeNotes.notes;
+});
+
+const showOnlyFavorite = computed(() => 
+  favoriteToggle.value ? 'Favorite only' : 'Everything'
+)
+
+
+// Function to delete the note
+const deleteNote = (id) => storeNotes.deleteNote(id)
+
+// Manage the displayed notes
+const test = () => {
+  console.log(storeNotes.getNoteWithDueDate)
+  return storeNotes.getNoteWithDueDate
+}
+
+onMounted(() =>{
+  storeNotes.fetchNotes()
+})
+
 </script>
