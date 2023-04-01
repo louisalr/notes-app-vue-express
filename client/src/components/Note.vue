@@ -5,12 +5,21 @@
             <p class="card-text">{{informations}}</p>
             <router-link :to="dynamicUrlEdit" class="btn btn-success"><a> Edit</a></router-link>
             <button @click="handleDeleteButton" class="btn btn-danger"> Delete </button>
+            <button @click="toggleFavoriteState" class="btn btn-warning">
+                <i v-if="isFavorite" class="fas fa-heart"></i>
+                <i v-else class="far fa-heart"></i>
+            </button>
+            <!--CHANGER LA CLASSE DYNAMIQUEMENT-->
         </div>
     </base-card>
 </template>
 
 <script setup>
 import {computed} from 'vue'
+import { useNoteStore } from '@/stores/notes'
+
+const storeNotes = useNoteStore()
+
 // Props
 const props = defineProps({
     id: {
@@ -45,6 +54,10 @@ const emit = defineEmits(['deleteClick'])
 const handleDeleteButton = () => {
     emit('deleteClick', props.id)
 }
+
+const toggleFavoriteState = () => storeNotes.toggleFavorite(props.id, props.isFavorite)
+
+
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import { getNotes, getNotesWithDueDate, getNote, createNote, editNote,deleteNote} from './database.js'
+import { getNotes, getNotesWithDueDate, getNote, createNote, editNote, editNoteStatus, deleteNote} from './database.js'
 const app = express()
 
 
@@ -35,6 +35,14 @@ app.post('/notes', async (req,res) =>{
     const {title, informations, isFavorite, dueDate} = req.body
     console.log(req.body)
     const note = await createNote(title, informations, isFavorite, dueDate)
+    res.status(201).send(note)
+})
+
+app.patch('/notes/:id/favorite', async(req,res)=>{
+    const {id} = req.params
+    const {isFavorite} = req.body
+    console.log(`Dans le backend ${isFavorite} de la methode PATCH`)
+    const note = await editNoteStatus(id, isFavorite)
     res.status(201).send(note)
 })
 

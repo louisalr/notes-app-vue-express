@@ -84,6 +84,33 @@ export const useNoteStore = defineStore({
             const responseData = await editNoteRequest.json()
             console.log(responseData)
         },
+        async toggleFavorite(id, _isFavorite){
+            if(_isFavorite == 1){
+                _isFavorite = true
+            }
+            else{
+                _isFavorite = false
+            }
+            const editNoteRequest = await fetch(`http://localhost:9000/notes/${id}/favorite`, {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    isFavorite: _isFavorite,
+                })
+            })
+            //console.log(await editNoteRequest.json())
+            const responseData = await editNoteRequest
+            //console.log(responseData)
+            // Get the index of the note we changed its favorite status and modify it
+            const index = this.notes.find((note) => note.id == Number(id))        
+            index.isFavorite = !index.isFavorite
+            //console.log(index.isFavorite)
+            index.title = 'Modification dans la requete'
+            //console.log(index.isFavorite)
+        },
         async deleteNote(id){
             const deleteNote = await fetch(`http://localhost:9000/notes/${id}`, {
                 method: 'DELETE',

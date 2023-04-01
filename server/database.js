@@ -41,6 +41,13 @@ export async function editNote(id, title, informations, isFavorite, dueDate){
     return rows[0]
 }
 
+
+export async function editNoteStatus(id, favoriteState){
+    const [rows] = await pool.query(`UPDATE notes SET isFavorite = NOT ? where id = ?`,
+    [favoriteState, id])
+    return rows[0]
+}
+
 export async function deleteNote(id){
     const [rows] = await pool.query(`DELETE FROM notes where id = ?`, id)
     return rows 
