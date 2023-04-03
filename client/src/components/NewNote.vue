@@ -14,7 +14,7 @@
         </div>
         <div class="mb-3">
             <label for="dueDate" class="form-label">Due date</label>
-            <input type="text" class="form-control" id="dueDate" v-model="dueDate">
+            <input type="datetime-local" class="form-control" id="dueDate" v-model="dueDate">
         </div>
         <button @click="createNote" class="btn btn-info">Submit</button>
     </base-card>
