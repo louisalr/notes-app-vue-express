@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import BaseCard from '@/components/BaseCard.vue'
+import BaseSpinner from '@/components/BaseSpinner.vue'
 
 import './assets/bootstrap.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
@@ -16,5 +17,6 @@ app.use(createPinia())
 app.use(router)
 
 app.component('base-card', BaseCard)
+app.component('base-spinner', BaseSpinner)
 
 app.mount('#app')
